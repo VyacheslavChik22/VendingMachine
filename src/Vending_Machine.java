@@ -12,29 +12,27 @@ public class Vending_Machine {
         coffeeAssortment.add(new Coffee(0, "Brew", 450, 100));
         coffeeAssortment.add(new Coffee(0, "Iced", 370, 200));
 
-        float minPrice = 0;
-
-
+        float moneyAmount = 0;
         System.out.println("\nЗдравствуйте, сегодня у нас для вас есть широкий ассортимент вкусного и горячего кофе: \n");
 
         for (Coffee coffee : coffeeAssortment) {
             System.out.println(coffee);
         }
-        List<Float> minMoney = new ArrayList<>();
+        List<Float> inMoney = new ArrayList<>();
 
         Scanner scanner = new Scanner(System.in);
 
         for (Coffee price : coffeeAssortment) {
-            minMoney.add(price.getPrice());
+            inMoney.add(price.getPrice());
         }
-        float moneyAmount = Collections.min(minMoney);
+        float minMoneyAmount = Collections.min(inMoney);
         boolean sail = false;
         while (!sail) {
             System.out.print("\nВведите денежную сумму -> ");
             moneyAmount = scanner.nextInt();
             for (int i = 0; i < coffeeAssortment.size(); i++) {
-                if (moneyAmount < minPrice) {
-                    System.out.println("Этой суммы недостаточно!");
+                if (moneyAmount < minMoneyAmount) {
+                    System.out.println("Этой суммы недостаточно!\nВозьмите ваши " + moneyAmount);
                     break;
                 } else {
                     sail = true;
@@ -43,26 +41,31 @@ public class Vending_Machine {
         }
         boolean numberCoffee = false;
         int choiceOfNumber;
-        float theRestOfTheMoney = 0;
+        float theRestOfTheMoney;
         while (!numberCoffee) {
-            System.out.println("Выбирите номер желаемого кофе -> ");
+            System.out.print("Выбирите номер желаемого кофе -> ");
             choiceOfNumber = scanner.nextInt();
             for (int i = 0; i < coffeeAssortment.size(); i++) {
                 if (choiceOfNumber < 1 || choiceOfNumber > coffeeAssortment.size()) {
                     System.out.println("Неверно набран номер!");
                     break;
-                } else if (choiceOfNumber == coffeeAssortment.get(i).getId()) {
-                    if (moneyAmount > coffeeAssortment.get(i).getPrice()) {
-                        theRestOfTheMoney = moneyAmount - coffeeAssortment.get(i).getPrice();
-                    }
-                    System.out.println("Возьмите ваш кофе №" + " " + coffeeAssortment.get(i) + "\n");
-                    System.out.println("Ваша сдача: " + theRestOfTheMoney);
-
+                }
+                if(choiceOfNumber == coffeeAssortment.get(i).getId()
+                        && moneyAmount < coffeeAssortment.get(i).getPrice()){
+                    System.out.println("Недостаточная сумма для покупки кофе №_" + coffeeAssortment.get(i));
+                }
+                if(choiceOfNumber == coffeeAssortment.get(i).getId()
+                        && moneyAmount >= coffeeAssortment.get(i).getPrice()) {
+                    theRestOfTheMoney = moneyAmount - coffeeAssortment.get(i).getPrice();
+                    scanner.close();
+                    System.out.println("Возьмите ваш кофе №_" + coffeeAssortment.get(i) + "\n");
                     numberCoffee = true;
+                    if(moneyAmount > coffeeAssortment.get(i).getPrice()) {
+                        System.out.println("Ваша сдача: " + theRestOfTheMoney);
+                    }
                 }
             }
         }
-
 
     }
 }
