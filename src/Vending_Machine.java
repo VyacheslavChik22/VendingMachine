@@ -56,8 +56,8 @@ public class Vending_Machine {
                 }
                 if(choiceOfNumber == coffeeAssortment.get(i).getId()
                         && moneyAmount >= coffeeAssortment.get(i).getPrice()) {
-                    theRestOfTheMoney = moneyAmount - coffeeAssortment.get(i).getPrice();
                     scanner.close();
+                    theRestOfTheMoney = moneyAmount - coffeeAssortment.get(i).getPrice();
                     System.out.println("Возьмите ваш кофе №_" + coffeeAssortment.get(i) + "\n");
                     numberCoffee = true;
                     if(moneyAmount > coffeeAssortment.get(i).getPrice()) {
